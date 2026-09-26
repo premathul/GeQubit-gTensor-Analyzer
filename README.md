@@ -21,8 +21,16 @@ python -m pip install -e .
 ```.
 The package is intentionally independent of any specific device solver, so tensors from QTCAD, k·p calculations, experiment, or synthetic models can all be analyzed in the same framework.
 
+## Runnable scientific baseline
+
+The fitting problem is linear in the six independent components of the symmetric matrix G = gᵀg, since g_eff(n)² = nᵀG n for a unit field direction n. The script normalizes supplied directions, rejects rank-deficient angular sampling, solves a least-squares system, and diagonalizes the fitted matrix. The square roots of nonnegative eigenvalues are principal effective g magnitudes; the eigenvectors give their axes up to sign. Angular measurements of the energy splitting alone cannot reconstruct the unique signed 3×3 g tensor, because distinct tensors can share the same G.
+
+Install `numpy` and supply a CSV with columns `bx,by,bz,g_eff`, for example rows `1,0,0,1.2`, `0,1,0,0.8`, and additional noncoplanar directions until at least six linearly independent quadratic constraints are present. Run `python src/main.py measurements.csv`. Inspect the displayed squared-g residual and positive-semidefinite warning. For scientific inference, record measurement uncertainty, angular alignment errors, gate bias, field magnitude, and mesh settings; propagate these uncertainties before claiming principal-axis precision.
+
+## Validation and scope
+
+The calculations in `src/main.py` are transparent baseline models intended for reproducibility and extension. Inputs and assumptions should be reported alongside outputs; numerical agreement with a plotted trace alone does not validate a material-specific prediction. New physical terms should be accompanied by dimensional checks and independent limiting-case comparisons.
+
 ## Contact
 
-**Athul Prem**
-
-For scientific discussion, collaboration, or suggestions related to this project, please contact Athul Prem through the GitHub account associated with this repository.
+**Athul Prem** — [GitHub profile](https://github.com/premathul). For scientific discussion or collaboration, open an issue in this repository or reach out through my GitHub profile.
